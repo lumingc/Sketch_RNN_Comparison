@@ -1,5 +1,5 @@
-static/
 .DS_Store
-node_modules/
-__pycache__
 .vscode/
+node_modules/
+static/
+__pycache__

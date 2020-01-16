@@ -5,7 +5,12 @@ from flask_pymongo import PyMongo
 app = Flask(__name__)
 app.config['MONGO_URI'] = "mongodb://localhost:27017/tree_sketch_collection"
 mongo = PyMongo(app)
-app.json_encoder = JSONEncoder
+
+
+# myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+# mydb = myclient["tree_sketch_collection"]
+#app.config['MONGO_URI'] = "mongodb://localhost:27017/tree_sketch_collection"
+#app.json_encoder = JSONEncoder
 
 @app.route("/compare")
 def load_comparison():
