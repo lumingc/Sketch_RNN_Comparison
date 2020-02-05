@@ -21,7 +21,7 @@ export class SketchCanvas extends React.Component<{strokes: number[][], sketchin
     }
 
     async componentDidMount() {
-        console.log(this.divRef);
+        // console.log(this.divRef);
         this.start_draw = true;
         var strokes = this.props.strokes;
         this.draw_sketch();
@@ -163,8 +163,8 @@ export class SketchCanvas extends React.Component<{strokes: number[][], sketchin
                     min_y = Math.min(min_y, y);
                     max_y = Math.max(max_y, y);
                 }
-                console.log(min_x, max_x, min_y, max_y);
-                var scale = Math.min((screen_width - 20)/(max_x - min_x), (screen_width * 0.8)- 20/(max_y - min_y)); 
+                // console.log(min_x, max_x, min_y, max_y);
+                var scale = Math.min((screen_width - 20)/(max_x - min_x), (screen_width - 20) * 0.8/(max_y - min_y)); 
                 
                 for (var i = 0; i < strokes.length; i++) {
                     strokes[i][0] *= scale;
@@ -173,19 +173,19 @@ export class SketchCanvas extends React.Component<{strokes: number[][], sketchin
                 
                 if (min_x * scale <= 0) {
                     this.start_x = -min_x * scale + 10;
-                    console.log(this.start_x);
+                    // console.log(this.start_x);
                 }
                 if (max_x * scale >= screen_width) {
                     this.start_x -= min_x * scale - 10;
-                    console.log(this.start_x);
+                    // console.log(this.start_x);
                 }
                 if (min_y * scale <= 0) {
                     this.start_y = -min_y * scale + 10;
-                    console.log(this.start_y);
+                    // console.log(this.start_y);
                 }
                 if (max_y * scale >= screen_width * 0.8) {
                     this.start_y -= min_y * scale - 10
-                    console.log(this.start_y);
+                    // console.log(this.start_y);
                 }
                 
             }

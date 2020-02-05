@@ -7,7 +7,7 @@ const routing = (
   <React.Fragment>
     <Router>
       <div>
-        <Route path = "/compare" component={App} />
+        <Route path = "/" component={App} />
       </div>
     </Router>
   </React.Fragment>
