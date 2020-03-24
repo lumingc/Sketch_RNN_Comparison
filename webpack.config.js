@@ -24,7 +24,8 @@ module.exports = {
     // Set dev-server configuration
     devServer: {
         open: true,
-        port: 3000
+        port: 3000,
+        contentBase: './', 
     },
     // Add
     module: {

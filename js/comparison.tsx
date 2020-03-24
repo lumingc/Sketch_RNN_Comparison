@@ -17,7 +17,7 @@ const styles = theme => ({
   }
 });
 
-class App extends React.Component<{} & StyledComponentProps,{strokes1: number[][], strokes2: number[][], user_input: ""}> {
+class Comparison extends React.Component<{} & StyledComponentProps,{strokes1: number[][], strokes2: number[][], user_input: ""}> {
   strokes1_z: any;
   strokes2_z: any;
   constructor(props) {
@@ -32,7 +32,7 @@ class App extends React.Component<{} & StyledComponentProps,{strokes1: number[][
 }
 componentDidMount() {
   console.log("fetching sketches");
-  fetch("http://localhost:5000/api/load_sketches",{
+  fetch("https://127.0.0.1:5000/api/load_sketches",{
     method: 'GET'
   }).then(r => r.json())
     .then(r => {
@@ -58,7 +58,7 @@ handleSubmit(event) {
   data["sketch2_strokes"] = this.state.strokes2;
   data["sketch2_z"] =  this.strokes2_z;
   data["user_input"] = this.state.user_input;
-  fetch( "http://localhost:5000/api/inputs", {
+  fetch( "https://https://127.0.0.1:5000/api/inputs", {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -124,4 +124,4 @@ render() {
   }
 }
 
-export default withStyles(styles, {withTheme: true})(App);
+export default withStyles(styles, {withTheme: true})(Comparison);
