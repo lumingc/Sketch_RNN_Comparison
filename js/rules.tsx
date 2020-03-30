@@ -1,9 +1,8 @@
 import * as React from "react";
 import { Typography, Grid, Table, TableBody, TableRow, Button, TableCell} from "@material-ui/core";
 import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router';
 
-export class Rules extends React.Component <{price: string, endFunc: () => void}, {}> {
+export class Rules extends React.Component <{endFunc: () => void}, {}> {
 
     render () {
         return (
@@ -74,7 +73,7 @@ export class Rules extends React.Component <{price: string, endFunc: () => void}
 
                     <Grid item xs={12} />
                     <Grid item xs={4}>
-                        <Button variant="contained" fullWidth component={Link} to="/comparison" color="primary">
+                        <Button variant="contained" fullWidth onClick={this.props.endFunc} color="primary">
                             Begin Task
                         </Button>
                     </Grid>
@@ -83,4 +82,4 @@ export class Rules extends React.Component <{price: string, endFunc: () => void}
         )    
     }
 }
-export default withRouter(Rules);
+// export default withRouter(Rules);

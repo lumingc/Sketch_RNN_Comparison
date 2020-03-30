@@ -17,9 +17,11 @@ const styles = theme => ({
   }
 });
 
-class Comparison extends React.Component<{} & StyledComponentProps,{strokes1: number[][], strokes2: number[][], user_input: ""}> {
+class Comparison extends React.Component<{turkSubmitTo: string, assignmentId: string, workerId: string, hitId: string, endFunc:() => void} & StyledComponentProps,{strokes1: number[][], strokes2: number[][], user_input: ""}> {
   strokes1_z: any;
   strokes2_z: any;
+  formRef: React.RefObject<HTMLFormElement>;
+  
   constructor(props) {
   super(props);
   this.state = {
@@ -27,6 +29,7 @@ class Comparison extends React.Component<{} & StyledComponentProps,{strokes1: nu
     strokes2:[],
     user_input: ""
   }
+  this.formRef = React.createRef();
   this.handleChange = this.handleChange.bind(this);
   this.handleSubmit = this.handleSubmit.bind(this);
 }
@@ -50,7 +53,7 @@ handleChange(event) {
   this.setState({user_input: event.target.value});
 }
 
-handleSubmit(event) {
+async handleSubmit(event) {
   event.preventDefault();
   var data = {};
   data["sketch1_strokes"] = this.state.strokes1;
@@ -58,14 +61,15 @@ handleSubmit(event) {
   data["sketch2_strokes"] = this.state.strokes2;
   data["sketch2_z"] =  this.strokes2_z;
   data["user_input"] = this.state.user_input;
-  fetch( "https://https://127.0.0.1:5000/api/inputs", {
+  await fetch( "https://127.0.0.1:5000/api/inputs", {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
   });
-  window.location.reload(false);
+  this.formRef.current!.submit();
+  this.props.endFunc();
 }
 
 render() {
@@ -117,6 +121,10 @@ render() {
           >Submit</Button>
         </form> 
       </Box>
+      <form id="amazon-form" action={this.props.turkSubmitTo + "/mturk/externalSubmit"} method="POST" ref={this.formRef}>
+          <input type="hidden" id="assignmentId" value={this.props.assignmentId} name="assignmentId"/>
+          <input type="hidden" id="workerId" value={this.props.workerId} name="workerId"/>
+      </form>
     </div>
     ):(
       <span>Loading sketches...</span>

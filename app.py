@@ -37,9 +37,9 @@ def load_sketches():
         sketch_2 = list(col.aggregate([{"$sample": {"size": 1}}]))[0]
     return jsonify(strokes1 = sketch_1["strokes"], z1 = sketch_1["z"], strokes2 = sketch_2["strokes"], z2 = sketch_2["z"])
 
-@app.route("/comparison")
-def compare():
-    return render_template("index.html")
+# @app.route("/comparison")
+# def compare():
+#     return render_template("index.html")
 
 @app.route("/")
 def rules():
@@ -73,7 +73,9 @@ def pause_hit():
 def create_hit():
 #    if request.method == "GET":
 #       hits_res = mturk_utils.get_all_hits(mturk_client)
-#       print("MTurk API HITs Result: ", hits_res)
+#       hit_id = hits_res['HITs'][0]['HITId']
+#       print("Assignment", mturk_utils.get_assignments(mturk_client, hit_id))
+#       #print("MTurk API HITs Result: ", hits_res)
 #       return jsonify({"status": "success"}), 201
 #    else:
     #   data = request.get_json(force=True)
