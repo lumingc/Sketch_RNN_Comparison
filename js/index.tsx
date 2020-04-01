@@ -8,8 +8,8 @@ const routing = (
   <React.Fragment>
     <Router>
       <div>
-        <Route exact path = "/" component={Task} />
-        <Route exact path = "/consent" component={Consent}/>
+        <Route exact path = "/s2/" component={Task} />
+        <Route exact path = "/s2/consent" component={Consent}/>
       </div>
     </Router>
   </React.Fragment>

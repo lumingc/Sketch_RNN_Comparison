@@ -58,7 +58,7 @@ export class Rules extends React.Component <{endFunc: () => void}, {}> {
                         <Typography variant="h5" paragraph={true}>
                             Consent Form
                         </Typography>
-                        <Link to={"/consent"} target="_blank">
+                        <Link to={"/s2/consent"} target="_blank">
                             <Typography variant="body1" component="p">Please review the consent form of this study here.</Typography>
                         </Link>
                     </Grid>

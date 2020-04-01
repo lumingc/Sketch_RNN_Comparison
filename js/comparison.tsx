@@ -42,7 +42,7 @@ componentDidMount() {
 }
 
 load_sketches() {
-  fetch("https://127.0.0.1:5000/api/load_sketches",{
+  fetch("https://sketch.berkeley.edu/s2/api/load_sketches",{
     method: 'GET'
   }).then(r => r.json())
     .then(r => {
@@ -69,7 +69,7 @@ async handleSubmit(event) {
   data["sketch2_strokes"] = this.state.strokes2;
   data["sketch2_z"] =  this.strokes2_z;
   data["user_input"] = this.state.user_input;
-  await fetch( "https://127.0.0.1:5000/api/inputs", {
+  await fetch( "https://sketch.berkeley.edu/s2/api/inputs", {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -86,10 +86,6 @@ async handleSubmit(event) {
     await delay(3000);
     this.formRef.current!.submit();
   }
-  // this.props.endFunc();
-  // const delay = ms => new Promise(res => setTimeout(res, ms));
-  // await delay(3000);
-  // alert("Hello");
 }
 
 render() {

@@ -80,5 +80,6 @@ def create_hit():
 
 if __name__ == '__main__': 
     app.config.from_object('configurations.DevelopmentConfig') 
-    context = ('server.crt', 'server.key')
-    app.run(debug=True, ssl_context=context)
+    # context = ('server.crt', 'server.key')
+    # app.run(debug=True, ssl_context=context)
+    app.run(debug=True, port=8001)
