@@ -17,10 +17,11 @@ const styles = theme => ({
   }
 });
 
-class Comparison extends React.Component<{turkSubmitTo: string, assignmentId: string, workerId: string, hitId: string} & StyledComponentProps,{strokes1: number[][], strokes2: number[][], user_input: string, stage: string}> {
+class Comparison extends React.Component<{turkSubmitTo: string, assignmentId: string, workerId: string, hitId: string, tasks: number} & StyledComponentProps,{strokes1: number[][], strokes2: number[][], user_input: string, stage: string}> {
   strokes1_z: any;
   strokes2_z: any;
   formRef: React.RefObject<HTMLFormElement>;
+  tasks: number;
   
   constructor(props) {
   super(props);
@@ -30,12 +31,17 @@ class Comparison extends React.Component<{turkSubmitTo: string, assignmentId: st
     user_input: "",
     stage:"loading"
   }
+  this.tasks = this.props.tasks;
   this.formRef = React.createRef();
   this.handleChange = this.handleChange.bind(this);
   this.handleSubmit = this.handleSubmit.bind(this);
 }
+
 componentDidMount() {
-  console.log("fetching sketches");
+  this.load_sketches();
+}
+
+load_sketches() {
   fetch("https://127.0.0.1:5000/api/load_sketches",{
     method: 'GET'
   }).then(r => r.json())
@@ -70,10 +76,16 @@ async handleSubmit(event) {
     },
     body: JSON.stringify(data)
   });
-  this.setState({stage: "close"});
-  const delay = ms => new Promise(res => setTimeout(res, ms));
-  await delay(3000);
-  this.formRef.current!.submit();
+  this.tasks -= 1;
+  if (this.tasks > 0) {
+    this.setState({stage:"reload"}, 
+    () => this.load_sketches());
+  } else {
+    this.setState({stage: "close"});
+    const delay = ms => new Promise(res => setTimeout(res, ms));
+    await delay(3000);
+    this.formRef.current!.submit();
+  }
   // this.props.endFunc();
   // const delay = ms => new Promise(res => setTimeout(res, ms));
   // await delay(3000);
@@ -133,6 +145,7 @@ render() {
                 </form> 
             </Box>
           </div>}
+        {this.state.stage == 'reload' && <span>Loading next comparison...</span>}
         {this.state.stage == 'close' &&
           <Grid container alignItems='center' spacing={5}>
             <Grid item xs={12}>
