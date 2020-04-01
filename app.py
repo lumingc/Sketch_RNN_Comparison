@@ -5,10 +5,6 @@ import json
 from bson.objectid import ObjectId
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
-# from OpenSSL import SSL
-# context = SSL.Context(SSL.OP_NO_SSLv3)
-# context.use_privatekey_file('server.key')
-# context.use_certificate_file('server.crt')
 
 app = Flask(__name__)
 CORS(app)
@@ -36,10 +32,6 @@ def load_sketches():
     while sketch_2["_id"] == sketch_1["_id"]:
         sketch_2 = list(col.aggregate([{"$sample": {"size": 1}}]))[0]
     return jsonify(strokes1 = sketch_1["strokes"], z1 = sketch_1["z"], strokes2 = sketch_2["strokes"], z2 = sketch_2["z"])
-
-# @app.route("/comparison")
-# def compare():
-#     return render_template("index.html")
 
 @app.route("/")
 def rules():
@@ -86,17 +78,7 @@ def create_hit():
       res = mturk_utils.post_hit(mturk_client, hit_config)
       return jsonify(res), 201
 
-
-# with app.test_client() as c:
-#     rv = c.post('/api/hits')
-#     json_data = rv.get_json()
-#     print(json_data)
-
-# if __name__ == "__main__":
-#     app.config.from_object('configurations.DevelopmentConfig')
-#     app.run(debug=True)
 if __name__ == '__main__': 
     app.config.from_object('configurations.DevelopmentConfig') 
-    # app.run(host='127.0.0.1', debug=True, ssl_context=context)
     context = ('server.crt', 'server.key')
     app.run(debug=True, ssl_context=context)

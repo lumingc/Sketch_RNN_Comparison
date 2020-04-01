@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {SketchCanvas} from "./sketch_canvas";
-import {Box, Grid, TextField, Button, Typography, withStyles, StyledComponentProps} from '@material-ui/core';
+import {Box, Grid, TextField, Button, Typography, withStyles, StyledComponentProps, Container} from '@material-ui/core';
 
 const styles = theme => ({
   form: {
@@ -17,7 +17,7 @@ const styles = theme => ({
   }
 });
 
-class Comparison extends React.Component<{turkSubmitTo: string, assignmentId: string, workerId: string, hitId: string, endFunc:() => void} & StyledComponentProps,{strokes1: number[][], strokes2: number[][], user_input: ""}> {
+class Comparison extends React.Component<{turkSubmitTo: string, assignmentId: string, workerId: string, hitId: string} & StyledComponentProps,{strokes1: number[][], strokes2: number[][], user_input: string, stage: string}> {
   strokes1_z: any;
   strokes2_z: any;
   formRef: React.RefObject<HTMLFormElement>;
@@ -27,7 +27,8 @@ class Comparison extends React.Component<{turkSubmitTo: string, assignmentId: st
   this.state = {
     strokes1:[],
     strokes2:[],
-    user_input: ""
+    user_input: "",
+    stage:"loading"
   }
   this.formRef = React.createRef();
   this.handleChange = this.handleChange.bind(this);
@@ -41,7 +42,8 @@ componentDidMount() {
     .then(r => {
       this.setState({
         strokes1: r['strokes1'],
-        strokes2: r['strokes2']
+        strokes2: r['strokes2'],
+        stage:'comparison'
       })
       this.strokes1_z = r['z1']
       this.strokes2_z = r['z2']
@@ -68,67 +70,84 @@ async handleSubmit(event) {
     },
     body: JSON.stringify(data)
   });
+  this.setState({stage: "close"});
+  const delay = ms => new Promise(res => setTimeout(res, ms));
+  await delay(3000);
   this.formRef.current!.submit();
-  this.props.endFunc();
+  // this.props.endFunc();
+  // const delay = ms => new Promise(res => setTimeout(res, ms));
+  // await delay(3000);
+  // alert("Hello");
 }
 
 render() {
     const { classes } = this.props;
-    return this.state.strokes1.length? (
-    <div className={classes!.paper}>
-    <Box paddingTop={2} paddingLeft={5} paddingRight={5}>
-      <Typography variant="h4" display="block" color='initial'>
-        How do the two sketches below differ?
-      </Typography>
-    </Box>
-      <Box paddingTop={2} paddingLeft={2} paddingRight={2}>
-        <Grid container justify="center" spacing={10}>
-          <Grid item xs={5}>
-            <Box border={1} margin={1}>
-            <SketchCanvas strokes={this.state.strokes1}
-            sketchingComplete={() => {}}
-            ></SketchCanvas> </Box>
-          </Grid>      
-          <Grid item xs={5}>
-            <Box border={1} margin={1}>
-            <SketchCanvas strokes={this.state.strokes2}
-            sketchingComplete={() => {}}
-            ></SketchCanvas> </Box>
-          </Grid>
+    return (
+      <Container maxWidth="lg">
+      {this.state.stage == 'loading' && <span>Loading sketches...</span>}
+      {this.state.stage == 'comparison' && 
+          <div className={classes!.paper}>
+            <Box paddingTop={2} paddingLeft={5} paddingRight={5}>
+              <Typography variant="h4" display="block" color='initial'>
+                How do the two sketches below differ?
+              </Typography>
+            </Box>
+              <Box paddingTop={2} paddingLeft={2} paddingRight={2}>
+                <Grid container justify="center" spacing={8}>
+                  <Grid item xs={5}>
+                    <Box border={1} margin={1}>
+                    <SketchCanvas strokes={this.state.strokes1}
+                    sketchingComplete={() => {}}
+                    ></SketchCanvas> </Box>
+                  </Grid>      
+                  <Grid item xs={5}>
+                    <Box border={1} margin={1}>
+                    <SketchCanvas strokes={this.state.strokes2}
+                    sketchingComplete={() => {}}
+                    ></SketchCanvas> </Box>
+                  </Grid>
+                </Grid>
+              </Box>
+              <Box paddingTop={2} paddingLeft={5} paddingRight={5}>
+                <Typography variant="body1" display="block" color='initial'>
+                Please describe the transition from the sketch on the left to the sketch on the right (eg. "Make the leaves of a tree taller")
+                </Typography>
+                <form className={classes!.form}>
+                  <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="description"
+                        label="description"
+                        name="description"
+                        onChange={this.handleChange}
+                      />
+                  <Button className={classes!.submit}
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    style={{justifyContent: 'right'}}
+                    onClick={(event) => {this.handleSubmit(event);}}
+                  >Submit</Button>
+                </form> 
+            </Box>
+          </div>}
+        {this.state.stage == 'close' &&
+          <Grid container alignItems='center' spacing={5}>
+            <Grid item xs={12}>
+                <Typography variant='body1' align='center' display="block">Thank you for participating in our study! We will automatically submit your HIT in 3 seconds.
+                After submitting your responses, you can protect your privacy by clearing your browser's history, cache, cookies, and other browsing data. 
+                (Warning: This will log you out of online services.)
+                </Typography>
+            </Grid>
+            <form id="amazon-form" action={this.props.turkSubmitTo + "/mturk/externalSubmit"} method="POST" ref={this.formRef}>
+                <input type="hidden" id="assignmentId" value={this.props.assignmentId} name="assignmentId"/>
+                <input type="hidden" id="workerId" value={this.props.workerId} name="workerId"/>
+            </form>
         </Grid>
-      </Box>
-      <Box paddingTop={2} paddingLeft={5} paddingRight={5}>
-        <Typography variant="body1" display="block" color='initial'>
-        Please describe the transition from the sketch on the left to the sketch on the right (eg. "Make the leaves of a tree taller")
-        </Typography>
-        <form className={classes!.form}>
-          <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="description"
-                label="description"
-                name="description"
-                onChange={this.handleChange}
-              />
-          <Button className={classes!.submit}
-            type="submit"
-            variant="contained"
-            color="primary"
-            style={{justifyContent: 'right'}}
-            onClick={(event) => {this.handleSubmit(event);}}
-          >Submit</Button>
-        </form> 
-      </Box>
-      <form id="amazon-form" action={this.props.turkSubmitTo + "/mturk/externalSubmit"} method="POST" ref={this.formRef}>
-          <input type="hidden" id="assignmentId" value={this.props.assignmentId} name="assignmentId"/>
-          <input type="hidden" id="workerId" value={this.props.workerId} name="workerId"/>
-      </form>
-    </div>
-    ):(
-      <span>Loading sketches...</span>
-    )
+        }
+      </Container>)
   }
 }
 

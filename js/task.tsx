@@ -44,19 +44,8 @@ class Task extends React.Component<{} & RouteComponentProps, {stage: string, ass
                         <Comparison assignmentId={this.state.assignmentId}
                         workerId={this.state.workerId}
                         turkSubmitTo={this.state.turkSubmitTo} 
-                        hitId={this.state.hitId} 
-                        endFunc={()=> {
-                            this.setState({stage: 'close'})
-                        }}  />
-                    }
-                    {this.state.stage == 'close' &&
-                        <Grid container alignItems='center'>
-                        <Grid item xs={8}>
-                            <Typography variant='h5'>Thank you for participating in our study! 
-                            After submitting your responses, you can protect your privacy by clearing your browser's history, cache, cookies, and other browsing data. 
-                            (Warning: This will log you out of online services.)</Typography>
-                        </Grid>
-                    </Grid>
+                        hitId={this.state.hitId}
+                        />
                     }
                 </Box>
             </Container>
