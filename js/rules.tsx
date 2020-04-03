@@ -14,7 +14,7 @@ export class Rules extends React.Component <{endFunc: () => void}, {}> {
                             Task <br/>
                         </Typography>
                         <Typography variant="body1" component="p">
-                        In this activity, you will be asked to do 6 comparisons. For each comparison, two sketches from the same object class will be displayed, and you will be asked to describe the transition from the sketch on the left to the sketch on the right. 
+                        In this activity, you will be asked to do 20 comparisons. For each comparison, two sketches from the same object class will be displayed, and you will be asked to describe the transition from the sketch on the left to the sketch on the right. 
                         </Typography>
                     </Grid>
                     <Grid item xs={12}>

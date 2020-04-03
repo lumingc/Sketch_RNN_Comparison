@@ -82,7 +82,7 @@ class Consent extends React.Component <{}, {}> {
                             Compensation
                         </Typography>
                         <Typography variant="body1" component="p">
-                            To thank you for participating in this study, you will receive 0.05 Amazon Credit per comparison through Amazon Mechanical Turk.
+                            To thank you for participating in this study, you will receive 1 Amazon Credit per task through Amazon Mechanical Turk.
                         </Typography>
                     </Grid>
                     <Grid item xs={12}>
