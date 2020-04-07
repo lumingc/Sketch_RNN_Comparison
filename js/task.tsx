@@ -45,7 +45,7 @@ class Task extends React.Component<{} & RouteComponentProps, {stage: string, ass
                         workerId={this.state.workerId}
                         turkSubmitTo={this.state.turkSubmitTo} 
                         hitId={this.state.hitId}
-                        tasks= {20}
+                        tasks= {10}
                         />
                     }
                 </Box>

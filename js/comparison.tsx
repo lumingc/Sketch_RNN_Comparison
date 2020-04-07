@@ -63,6 +63,9 @@ handleChange(event) {
 
 async handleSubmit(event) {
   event.preventDefault();
+  if (!this.state.user_input.length) {
+    alert("Your description is empty. Please fill the description before submitting");
+  } else {
   var data = {};
   data["sketch1_strokes"] = this.state.strokes1;
   data["sketch1_z"] = this.strokes1_z;
@@ -86,6 +89,7 @@ async handleSubmit(event) {
     await delay(3000);
     this.formRef.current!.submit();
   }
+  }
 }
 
 render() {
@@ -99,9 +103,12 @@ render() {
               <Typography variant="h4" display="block" color='initial'>
                 How do the two sketches below differ?
               </Typography>
+	      <Typography align="right"> 
+                {this.props.tasks - this.tasks}/10 completed
+              </Typography>
             </Box>
-              <Box paddingTop={2} paddingLeft={2} paddingRight={2}>
-                <Grid container justify="center" spacing={8}>
+              <Box paddingTop={2}>
+                <Grid container justify="center" spacing={6}>
                   <Grid item xs={5}>
                     <Box border={1} margin={1}>
                     <SketchCanvas strokes={this.state.strokes1}
@@ -118,7 +125,7 @@ render() {
               </Box>
               <Box paddingTop={2} paddingLeft={5} paddingRight={5}>
                 <Typography variant="body1" display="block" color='initial'>
-                Please describe the transition from the sketch on the left to the sketch on the right (eg. "Make the leaves of a tree taller")
+                Imagine you are trying to give instructions to a person to modify the sketch from the left to the sketch on the right, please describe the transition needed (eg. "Make the trunk of the tree taller and the leaves rounder"):
                 </Typography>
                 <form className={classes!.form}>
                   <TextField
@@ -137,7 +144,7 @@ render() {
                     color="primary"
                     style={{justifyContent: 'right'}}
                     onClick={(event) => {this.handleSubmit(event);}}
-                  >Submit</Button>
+                  >{this.props.tasks - this.tasks == this.props.tasks - 1? "Submit" : "Next"}</Button>
                 </form> 
             </Box>
           </div>}

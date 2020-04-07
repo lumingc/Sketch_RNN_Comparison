@@ -14,12 +14,12 @@ export class Rules extends React.Component <{endFunc: () => void}, {}> {
                             Task <br/>
                         </Typography>
                         <Typography variant="body1" component="p">
-                        In this activity, you will be asked to do 20 comparisons. For each comparison, two sketches from the same object class will be displayed, and you will be asked to describe the transition from the sketch on the left to the sketch on the right. 
+                        In this activity, you will be asked to do 10 comparisons. For each comparison, two tree sketches will be displayed, and you will be asked to give instructions to transform the sketch on the left to the sketch on the right. 
                         </Typography>
                     </Grid>
                     <Grid item xs={12}>
                         <Typography variant="h5" paragraph={true}>
-                            Expected Time: 15 seconds
+                            Expected Time: 3 minutes
                         </Typography>
                     </Grid>
 
@@ -42,7 +42,7 @@ export class Rules extends React.Component <{endFunc: () => void}, {}> {
                             </TableRow>
                             <TableRow>
                                 <TableCell> 
-                                    <Typography variant="body1">Your rewards will not be based on your description performance. However, please try you best to describe the changes needed to transform sketch 1 to sketch 2.
+                                    <Typography variant="body1">Your rewards will not be based on your description performance. However, please try you best to give instructions to transform sketch 1 to sketch 2.
                                     </Typography>
                                 </TableCell>
                             </TableRow>

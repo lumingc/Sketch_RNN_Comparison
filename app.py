@@ -17,21 +17,13 @@ mturk_client = mturk_utils.init_client(mturk_config["general_config"])
 # MongoDB
 client = pymongo.MongoClient("mongodb://localhost:27017/")
 db = client["train_sketches"]
-col = db["big_stroke_sketches_and_z"]
+col = db["pairs_test"]
 col2 = db["sketch_pairs_test"]
 
 @app.route("/api/load_sketches", methods=['GET'])
-def load_sketches():
-    # sample sketches 
-    sketch_1 = list(col.aggregate([{"$sample": {"size": 1}}]))[0]
-    sketch_2 = list(col.aggregate([{"$sample": {"size": 1}}]))[0]
-    #replace the unhashable object id with str
-    sketch_1["_id"] = str(sketch_1["_id"])
-    sketch_2["_id"] = str(sketch_2["_id"])
-    # make sure sketch 1 and 2 are not the same
-    while sketch_2["_id"] == sketch_1["_id"]:
-        sketch_2 = list(col.aggregate([{"$sample": {"size": 1}}]))[0]
-    return jsonify(strokes1 = sketch_1["strokes"], z1 = sketch_1["z"], strokes2 = sketch_2["strokes"], z2 = sketch_2["z"])
+def load_sketches(): 
+    sample = col.find_one_and_update({'lock': False}, {'$set': {'lock': True}})
+    return jsonify(strokes1 = sample["strokes1"], z1 = sample["z1"], strokes2 = sample["strokes2"], z2 = sample["z2"])
 
 @app.route("/")
 def rules():
@@ -44,7 +36,7 @@ def consent():
 @app.route("/api/inputs", methods=['POST'])
 def submit_post():
     if request.method == 'POST':
-        doc = json.loads(request.data)
+        doc = json.loads(request.data.decode('utf-8'))
         col2.insert_one(doc)
         return "post succeeded"
     return "not a post"

@@ -39,10 +39,9 @@ class Consent extends React.Component <{}, {}> {
                             Procedures
                         </Typography>
                         <Typography variant="body1" component="p">
-                        If you agree to participate in our research, you will be asked to compare two sketches and describe the changes needed to transform sketch 1 to sketch 2 in English language.
-                        In this activity, two sketches from the same object class will be displayed, and you will be asked to describe the transition from the sketch on the left to the sketch on the right. 
-                        Each comparison should take about 15 seconds to complete.
-                        You can participate multiple times.
+                        If you agree to participate in our research, you will be asked to compare 10 sets of two sketches and provide instructions to transform sketch 1 to sketch 2 in English language.
+                        In this activity, two tree sketches will be displayed, and you will be asked to describe the transition from the sketch on the left to the sketch on the right. 
+                        Each comparison should take about 20 seconds to complete. In total, each task should take around 3 minutes and 20 seconds. 
                         </Typography>
                     </Grid>
                     <Grid item xs={12}>
@@ -82,7 +81,7 @@ class Consent extends React.Component <{}, {}> {
                             Compensation
                         </Typography>
                         <Typography variant="body1" component="p">
-                            To thank you for participating in this study, you will receive 1 Amazon Credit per task through Amazon Mechanical Turk.
+                            To thank you for participating in this study, you will receive 0.5 Amazon Credit per task through Amazon Mechanical Turk.
                         </Typography>
                     </Grid>
                     <Grid item xs={12}>
